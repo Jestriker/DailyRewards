@@ -18,6 +18,8 @@ import net.minecraft.client.sound.PositionedSoundInstance
 import net.minecraft.sound.SoundEvent
 import net.minecraft.util.Formatting
 import net.minecraft.text.MutableText
+import net.minecraft.client.gl.RenderPipelines
+import net.minecraft.client.gui.Click
 
 class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily Reward")) {
 
@@ -56,7 +58,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             "legendary" -> ModSoundEvents.LEGENDARY
             else -> ModSoundEvents.COMMON
         }
-        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(revealSound, 1f))
+        MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.ui(revealSound, 1f))
     }
     
     private val revealed = MutableList(offer.cards.size) { false }
@@ -92,7 +94,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             val x = xDynamic
             val hovered = mouseX in x..(x + cardWidth) && mouseY in y..(y + cardHeight)
             if (hovered && !revealed[idx] && !flipping[idx]) {
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(ModSoundEvents.HOVER, 1f))
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.ui(ModSoundEvents.HOVER, 1f))
                 if (!ConfigManager.config.flipAnimation) {
                     revealed[idx] = true
                     flipProgress[idx] = 1f
@@ -116,14 +118,14 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             val drawX = x - (drawW - cardWidth) / 2
             val drawY = y - (drawH - cardHeight) / 2
             val centreX = drawX + drawW / 2f
-            context.matrices.push()
-            context.matrices.translate(centreX, (drawY + drawH / 2f), 0f)
+            context.matrices.pushMatrix()
+            context.matrices.translate(centreX, (drawY + drawH / 2f))
             val scaleXRaw = kotlin.math.cos(flipProgress[idx] * Math.PI).toFloat()
             val scaleX = kotlin.math.abs(scaleXRaw) 
-            context.matrices.scale(scaleX, 1f, 1f)
-            context.matrices.translate(-centreX, -(drawY + drawH / 2f), 0f)
-            context.drawTexture(tex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
-            context.matrices.pop()
+            context.matrices.scale(scaleX, 1f)
+            context.matrices.translate(-centreX, -(drawY + drawH / 2f))
+            context.drawTexture(RenderPipelines.GUI_TEXTURED, tex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+            context.matrices.popMatrix()
 
             if (flipProgress[idx] >= 0.5f) {
                 val isLegendary = card.rarity == "legendary"
@@ -135,14 +137,14 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                 if (isLegendary) {
                     val t = (System.currentTimeMillis() % 2000L).toFloat() / 2000f 
                     val zoom = 1f + 0.05f * kotlin.math.sin(t * 2f * Math.PI).toFloat()
-                    context.matrices.push()
-                    context.matrices.translate(centreX, (drawY + drawH / 2f), 0f)
-                    context.matrices.scale(zoom, zoom, 1f)
-                    context.matrices.translate(-centreX, -(drawY + drawH / 2f), 0f)
-                    context.drawTexture(glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
-                    context.matrices.pop()
+                    context.matrices.pushMatrix()
+                    context.matrices.translate(centreX, (drawY + drawH / 2f))
+                    context.matrices.scale(zoom, zoom)
+                    context.matrices.translate(-centreX, -(drawY + drawH / 2f))
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+                    context.matrices.popMatrix()
                 } else {
-                    context.drawTexture(glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
                 }
 
                 if (card.iconUrl.isNotEmpty()) {
@@ -152,7 +154,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     val iconH = (cardHeight * currentIconScale).toInt()
                     val iconX = x + (cardWidth - iconW) / 2
                     val iconY = y + (cardHeight - iconH) / 2 + 2
-                    context.drawTexture(iconTex, iconX, iconY, 0f, 0f, iconW, iconH, iconW, iconH)
+                    context.drawTexture(RenderPipelines.GUI_TEXTURED, iconTex, iconX, iconY, 0f, 0f, iconW, iconH, iconW, iconH)
                 }
                     val amountStr = card.amount
                     val nameStr = card.name
@@ -166,8 +168,8 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     }
 
                     val scale = if (hovered) 1.1f else 1.0f
-                context.matrices.push()
-                context.matrices.scale(scale, scale, 1f)
+                context.matrices.pushMatrix()
+                context.matrices.scale(scale, scale)
                 val scaledX = ((x + cardWidth / 2).toFloat() / scale).roundToInt()
                 val nameBase = y + cardHeight - 45 + if (hovered) 4 else 0
                 val nameY = (nameBase.toFloat() / scale).roundToInt()
@@ -202,7 +204,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                         context.drawCenteredTextWithShadow(textRenderer, Text.literal(secondLine), scaledX, adjustedNameY + 10, rarityColor)
                     }
                     context.drawCenteredTextWithShadow(textRenderer, Text.literal(amountStr), scaledX, adjustedAmountY, rarityColor)
-                    context.matrices.pop()
+                    context.matrices.popMatrix()
 
                     if (hovered) {
                         val rarityFormat = rarityToFormat(card.rarity)
@@ -339,12 +341,12 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             val glowDrawX = mCenterX - glowSize / 2
             val glowDrawY = centerY.toInt() - glowSize / 2
             
-            context.matrices.push()
-            context.matrices.translate(mCenterX.toFloat(), centerY.toFloat(), 0f)
-            context.matrices.scale(scaleVariation, scaleVariation, 1f)
-            context.matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(rotationAngle))
-            context.matrices.translate(-mCenterX.toFloat(), -centerY.toFloat(), 0f)
+            context.matrices.pushMatrix()
+            context.matrices.translate(mCenterX.toFloat(), centerY.toFloat())
+            context.matrices.scale(scaleVariation, scaleVariation)
+            context.matrices.translate(-mCenterX.toFloat(), -centerY.toFloat())
             context.drawTexture(
+                RenderPipelines.GUI_TEXTURED,
                 glowTex,
                 glowDrawX,
                 glowDrawY,
@@ -355,7 +357,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                 glowSize,
                 glowSize
             )
-            context.matrices.pop()
+            context.matrices.popMatrix()
         }
 
         val milestoneStatus = when {
@@ -503,7 +505,9 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
         }
     }
 
-    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+    override fun mouseClicked(click: Click, doubled: Boolean): Boolean {
+        val mouseX = click.x
+        val mouseY = click.y
         if (selectedIndex != null) return true
         val totalWidth = offer.cards.size * cardWidth + (offer.cards.size - 1) * cardSpacing
         val startX = (width - totalWidth) / 2
@@ -516,7 +520,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     return true
                 } else {
 
-                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(ModSoundEvents.PICK, 1f))
+                MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.ui(ModSoundEvents.PICK, 1f))
                 if (offer.id != "debug") {
                 RewardClaimer.claim(idx, offer.id)
             }
@@ -561,7 +565,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                 }
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button)
+        return super.mouseClicked(click, doubled)
     }
 
     override fun shouldPause(): Boolean = false

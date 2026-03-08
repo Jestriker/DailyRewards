@@ -79,17 +79,15 @@ object DailyReminder {
     }
     
     private fun handleHypixelReminder(client: MinecraftClient) {
-        val currentTick = client.world?.time?.toInt() ?: 0
-        
         if (!reminderSent && ticksSinceJoin >= REMINDER_DELAY_TICKS) {
             sendInitialReminder()
             reminderSent = true
-            lastReminderTick = currentTick
+            lastReminderTick = ticksSinceJoin
         }
         
-        if (reminderSent && (currentTick - lastReminderTick) >= REMINDER_INTERVAL_TICKS) {
+        if (reminderSent && (ticksSinceJoin - lastReminderTick) >= REMINDER_INTERVAL_TICKS) {
             sendPeriodicReminder()
-            lastReminderTick = currentTick
+            lastReminderTick = ticksSinceJoin
         }
     }
     

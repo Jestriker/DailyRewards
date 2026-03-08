@@ -29,8 +29,8 @@ Part of the **JustOptimized Modpack Official Mods** collection.
 
 ### Requirements
 
-- **Minecraft 1.21.1**
-- **Fabric Loader 0.16.14+**
+- **Minecraft 1.21.11**
+- **Fabric Loader 0.18.4+**
 - **Java 21+**
 
 ### Required Dependencies
