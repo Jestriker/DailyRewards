@@ -1,15 +1,15 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
-import cqseur.dailyrewards.RewardFetcher
-import cqseur.dailyrewards.DailyReminder
-import cqseur.dailyrewards.ModSoundEvents
-import cqseur.dailyrewards.ui.RewardScreen
-import cqseur.dailyrewards.utils.MessageUtils
-import cqseur.dailyrewards.config.ConfigManager
-import cqseur.dailyrewards.commands.MainCommands
-import cqseur.dailyrewards.commands.CommandRegistry
-import cqseur.dailyrewards.ui.DailyRewardsConfigScreen
-import cqseur.dailyrewards.utils.manager.DailyClaimManager
+import justme.dailyrewards.RewardFetcher
+import justme.dailyrewards.DailyReminder
+import justme.dailyrewards.ModSoundEvents
+import justme.dailyrewards.ui.RewardScreen
+import justme.dailyrewards.utils.MessageUtils
+import justme.dailyrewards.config.ConfigManager
+import justme.dailyrewards.commands.MainCommands
+import justme.dailyrewards.commands.CommandRegistry
+import justme.dailyrewards.ui.DailyRewardsConfigScreen
+import justme.dailyrewards.utils.manager.DailyClaimManager
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -62,9 +62,6 @@ class DailyRewardsClient : ClientModInitializer {
     companion object {
         private var instance: DailyRewardsClient? = null
         
-        /**
-         * debug
-         **/
         fun setPendingOffer(offer: RewardOffer) {
             instance?.pendingOffer = offer
         }

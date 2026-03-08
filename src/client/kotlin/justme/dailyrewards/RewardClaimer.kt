@@ -1,4 +1,4 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,11 +11,10 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 import net.minecraft.util.Formatting
 import net.minecraft.text.ClickEvent
-import java.net.URI
 
-import cqseur.dailyrewards.RewardFetcher
-import cqseur.dailyrewards.utils.MessageUtils
-import cqseur.dailyrewards.utils.manager.DailyClaimManager
+import justme.dailyrewards.RewardFetcher
+import justme.dailyrewards.utils.MessageUtils
+import justme.dailyrewards.utils.manager.DailyClaimManager
 
 object RewardClaimer {
     private val logger = LoggerFactory.getLogger("[DailyRewards-Client]")
@@ -26,13 +25,7 @@ object RewardClaimer {
         val cookieHeader = RewardFetcher.cookies.joinToString("; ")
         if (token.isNullOrEmpty() || cookieHeader.isEmpty()) {
             MinecraftClient.getInstance().execute {
-                MessageUtils.sendError("Cannot claim, missing token/cookies")
-                val githubMessage = MessageUtils.PREFIX()
-                    .append(Text.literal("If the error persist, create an issue on the "))
-                    .append(Text.literal("[GitHub]")
-                        .formatted(Formatting.DARK_AQUA, Formatting.BOLD, Formatting.UNDERLINE)
-                        .styled { it.withClickEvent(ClickEvent.OpenUrl(URI("https://github.com/Cqseur/DailyRewards/issues"))) })
-                MinecraftClient.getInstance().player?.sendMessage(githubMessage, false)
+                MessageUtils.sendError("Cannot claim, missing token/cookies. Please try again.")
             }
             logger.warn("Missing token or cookies, cannot claim reward")
             return
@@ -59,13 +52,7 @@ object RewardClaimer {
                     } else {
                         logger.warn("Claim failed code ${resp.code}")
                         MinecraftClient.getInstance().execute {
-                            MessageUtils.sendError("Claim failed (${resp.code})")
-                            val githubMessage = MessageUtils.PREFIX()
-                                .append(Text.literal("If the error persist, create an issue on the "))
-                                .append(Text.literal("[GitHub]")
-                                    .formatted(Formatting.DARK_AQUA, Formatting.BOLD, Formatting.UNDERLINE)
-                                    .styled { it.withClickEvent(ClickEvent.OpenUrl(URI("https://github.com/Cqseur/DailyRewards/issues"))) })
-                            MinecraftClient.getInstance().player?.sendMessage(githubMessage, false)
+                            MessageUtils.sendError("Claim failed (${resp.code}). Please try again later.")
                         }
                     }
                 }

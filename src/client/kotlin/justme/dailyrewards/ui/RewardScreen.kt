@@ -1,18 +1,17 @@
-package cqseur.dailyrewards.ui
+package justme.dailyrewards.ui
 
-import cqseur.dailyrewards.config.ConfigManager
-import cqseur.dailyrewards.utils.MessageUtils
-import cqseur.dailyrewards.RewardOffer
-import cqseur.dailyrewards.ModSoundEvents
-import cqseur.dailyrewards.RewardClaimer
-import cqseur.dailyrewards.RewardFetcher
+import justme.dailyrewards.config.ConfigManager
+import justme.dailyrewards.utils.MessageUtils
+import justme.dailyrewards.RewardOffer
+import justme.dailyrewards.ModSoundEvents
+import justme.dailyrewards.RewardClaimer
+import justme.dailyrewards.RewardFetcher
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.client.render.RenderLayer
 import kotlin.random.Random
 import kotlin.math.roundToInt
 import net.minecraft.client.sound.PositionedSoundInstance
@@ -35,7 +34,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
     private val milestoneClaimAnimDuration: Long = 2500L
     private var isMilestoneClaimAnim: Boolean = false
 
-    private var claimLabel: String = "Choose One.One.One.One card to claim your reward"
+    private var claimLabel: String = "Choose one card to claim your reward"
     private var selectedIndex: Int? = null
     private var closeAt: Long = 0
     private var moveStart: Long = 0
@@ -123,7 +122,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             val scaleX = kotlin.math.abs(scaleXRaw) 
             context.matrices.scale(scaleX, 1f, 1f)
             context.matrices.translate(-centreX, -(drawY + drawH / 2f), 0f)
-            context.drawTexture(RenderLayer::getGuiTextured, tex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+            context.drawTexture(tex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
             context.matrices.pop()
 
             if (flipProgress[idx] >= 0.5f) {
@@ -140,10 +139,10 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     context.matrices.translate(centreX, (drawY + drawH / 2f), 0f)
                     context.matrices.scale(zoom, zoom, 1f)
                     context.matrices.translate(-centreX, -(drawY + drawH / 2f), 0f)
-                    context.drawTexture(RenderLayer::getGuiTextured, glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+                    context.drawTexture(glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
                     context.matrices.pop()
                 } else {
-                    context.drawTexture(RenderLayer::getGuiTextured, glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
+                    context.drawTexture(glowTex, drawX, drawY, 0f, 0f, drawW, drawH, drawW, drawH)
                 }
 
                 if (card.iconUrl.isNotEmpty()) {
@@ -153,7 +152,7 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     val iconH = (cardHeight * currentIconScale).toInt()
                     val iconX = x + (cardWidth - iconW) / 2
                     val iconY = y + (cardHeight - iconH) / 2 + 2
-                    context.drawTexture(RenderLayer::getGuiTextured, iconTex, iconX, iconY, 0f, 0f, iconW, iconH, iconW, iconH)
+                    context.drawTexture(iconTex, iconX, iconY, 0f, 0f, iconW, iconH, iconW, iconH)
                 }
                     val amountStr = card.amount
                     val nameStr = card.name
@@ -174,7 +173,6 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                 val nameY = (nameBase.toFloat() / scale).roundToInt()
                 val amountBase = y + cardHeight - 25 + if (hovered) 4 else 0
                 val amountY = (amountBase.toFloat() / scale).roundToInt()
-                    //---- wrap long names onto two lines ----//
                     val maxNameWidth = cardWidth - 10 
                     var firstLine = nameStr
                     var secondLine: String? = null
@@ -203,17 +201,6 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
                     if (secondLine != null) {
                         context.drawCenteredTextWithShadow(textRenderer, Text.literal(secondLine), scaledX, adjustedNameY + 10, rarityColor)
                     }
-                    /*
-                    // downscale name to fit 
-                    val nameWidthPx = textRenderer.getWidth(nameStr)
-                    val maxNameWidth = cardWidth - 10 
-                    val nameScale = if (nameWidthPx > maxNameWidth) maxNameWidth.toFloat() / nameWidthPx else 1f
-                    context.matrices.push()
-                    context.matrices.scale(nameScale, nameScale, 1f)
-                    val scaledXName = (scaledX / nameScale).roundToInt()
-                    val scaledYName = (nameY / nameScale).roundToInt()
-                    context.drawCenteredTextWithShadow(textRenderer, Text.literal(nameStr), scaledXName, scaledYName, rarityColor)
-                    context.matrices.pop() */
                     context.drawCenteredTextWithShadow(textRenderer, Text.literal(amountStr), scaledX, adjustedAmountY, rarityColor)
                     context.matrices.pop()
 
@@ -358,7 +345,6 @@ class RewardScreen(private val offer: RewardOffer) : Screen(Text.literal("Daily 
             context.matrices.multiply(net.minecraft.util.math.RotationAxis.POSITIVE_Z.rotationDegrees(rotationAngle))
             context.matrices.translate(-mCenterX.toFloat(), -centerY.toFloat(), 0f)
             context.drawTexture(
-                RenderLayer::getGuiTextured,
                 glowTex,
                 glowDrawX,
                 glowDrawY,

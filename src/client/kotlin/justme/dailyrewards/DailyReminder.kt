@@ -1,8 +1,8 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
-import cqseur.dailyrewards.config.ConfigManager
-import cqseur.dailyrewards.utils.MessageUtils
-import cqseur.dailyrewards.utils.manager.DailyClaimManager
+import justme.dailyrewards.config.ConfigManager
+import justme.dailyrewards.utils.MessageUtils
+import justme.dailyrewards.utils.manager.DailyClaimManager
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.MinecraftClient
@@ -106,14 +106,11 @@ object DailyReminder {
         val client = MinecraftClient.getInstance()
         val player = client.player
         client.execute {
-            MessageUtils.sendWarning("⌚ §6Reminder: You still haven't claimed your daily rewards !")
+            MessageUtils.sendWarning("⌚ §6Reminder: You still haven't claimed your daily rewards!")
             player?.playSound(SoundEvents.BLOCK_NOTE_BLOCK_PLING.value(), 1.0f, 1.0f)
         }
     }
     
-    /**
-     * debug
-     **/
     fun triggerReminder() {
         if (isOnHypixel) {
             sendInitialReminder()
@@ -124,9 +121,6 @@ object DailyReminder {
 
     fun isCurrentlyOnHypixel(): Boolean = isOnHypixel
     
-    /**
-     * debug
-     **/
     fun resetReminderState() {
         reminderSent = false
         ticksSinceJoin = 0

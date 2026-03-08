@@ -1,11 +1,11 @@
-package cqseur.dailyrewards.commands
+package justme.dailyrewards.commands
 
-import cqseur.dailyrewards.ui.DailyRewardsConfigScreen
-import cqseur.dailyrewards.ui.RewardScreen
-import cqseur.dailyrewards.utils.MessageUtils
-import cqseur.dailyrewards.utils.manager.DailyClaimManager
-import cqseur.dailyrewards.RewardOffer
-import cqseur.dailyrewards.RewardCard
+import justme.dailyrewards.ui.DailyRewardsConfigScreen
+import justme.dailyrewards.ui.RewardScreen
+import justme.dailyrewards.utils.MessageUtils
+import justme.dailyrewards.utils.manager.DailyClaimManager
+import justme.dailyrewards.RewardOffer
+import justme.dailyrewards.RewardCard
 
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
@@ -71,10 +71,10 @@ object MainCommands {
     private fun sendRainbowSeparator() {
         val player = MinecraftClient.getInstance().player
     
-        val start = 0xF2C511 /* #F2C511 */
-        val color2 = 0xF39C19 /* #F39C19 */
-        val color3 = 0xFF0000 /* #FF0000 */
-        val color4 = 0xb300ff /* #b300ff */
+        val start = 0xF2C511
+        val color2 = 0xF39C19
+        val color3 = 0xFF0000
+        val color4 = 0xb300ff
         val PREFIX = MessageUtils.gradientText("DailyRewards", start, color2, color3, color4)
         
         val separator = Text.literal("§6▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬ ")

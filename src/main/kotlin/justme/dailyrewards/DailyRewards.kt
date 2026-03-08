@@ -1,4 +1,4 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
 import net.fabricmc.api.ModInitializer
 import org.slf4j.LoggerFactory

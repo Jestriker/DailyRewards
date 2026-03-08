@@ -1,4 +1,4 @@
-package cqseur.dailyrewards.config
+package justme.dailyrewards.config
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -6,10 +6,6 @@ import net.fabricmc.loader.api.FabricLoader
 import java.nio.file.Files
 import java.nio.file.Path
 
-/**
- * Centralized configuration manager for the mod
- * Handles loading, saving, and managing configuration data
- **/
 object ConfigManager {
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
     private val configPath: Path = FabricLoader.getInstance().configDir.resolve("dailyrewards.json")

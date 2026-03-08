@@ -1,6 +1,6 @@
-package cqseur.dailyrewards.ui
+package justme.dailyrewards.ui
 
-import cqseur.dailyrewards.config.ConfigManager
+import justme.dailyrewards.config.ConfigManager
 import me.shedaniel.clothconfig2.api.ConfigBuilder
 import me.shedaniel.clothconfig2.api.ConfigCategory
 import net.minecraft.client.gui.screen.Screen
@@ -26,7 +26,7 @@ object DailyRewardsConfigScreen {
 
         generalSettings.addEntry(
             eb.startBooleanToggle(Text.literal("Daily Reminder"), ConfigManager.config.dailyReminder)
-                .setTooltip(Text.literal("Are you assisted and need a reminder ? Great ! Me too so there it is !"))
+                .setTooltip(Text.literal("Reminds you to claim your daily rewards when joining Hypixel."))
                 .setSaveConsumer { ConfigManager.config.dailyReminder = it }
                 .build()
         )
@@ -44,17 +44,6 @@ object DailyRewardsConfigScreen {
                 .setSaveConsumer { ConfigManager.config.flipSpeed = it }
                 .build()
         )
-
-        val devUuidRaw = "6d1c17283f5e4ea4ba64a2cebb6c6a3e"
-        val currentUuidRaw = MinecraftClient.getInstance().player?.uuid?.toString()?.replace("-", "") ?: ""
-        if (currentUuidRaw == devUuidRaw) {
-            val dev: ConfigCategory = builder.getOrCreateCategory(Text.literal("Developer"))
-            dev.addEntry(
-                eb.startBooleanToggle(Text.literal("Show overlay"), ConfigManager.config.showOverlay)
-                    .setSaveConsumer { ConfigManager.config.showOverlay = it }
-                    .build()
-            )
-        }
 
         builder.setSavingRunnable { ConfigManager.saveConfig() }
         return builder.build()

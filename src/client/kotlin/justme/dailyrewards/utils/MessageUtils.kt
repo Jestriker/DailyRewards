@@ -1,23 +1,14 @@
-package cqseur.dailyrewards.utils
+package justme.dailyrewards.utils
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 import net.minecraft.text.MutableText
 import net.minecraft.util.Formatting
 
-/**
- * Utility class 
- **/
 object MessageUtils {
 
-    /**
-     * Creates a text with dynamic gradient
-     * @param text The text to color
-     * @param colors The gradient colors (minimum 2 0xHEX)
-     * @return MutableText with applied gradient
-     **/
     fun gradientText(text: String, vararg colors: Int): MutableText {
-        require(colors.size >= 2) { "Au moins 2 couleurs sont nécessaires pour un dégradé" }
+        require(colors.size >= 2) { "At least 2 colors are required for a gradient" }
         
         val root = Text.empty()
         fun lerp(a: Int, b: Int, t: Float) = (a + ((b - a) * t)).toInt()
@@ -44,14 +35,13 @@ object MessageUtils {
     }
     
     private fun buildGradientPrefixText(): MutableText {
-        val start = 0xF2C511 /* #F2C511 */
-        val color2 = 0xF39C19 /* #F39C19 */
-        val color3 = 0xFF0000 /* #FF0000 */
-        val color4 = 0xb300ff /* #b300ff */
-        /* val end = 0x7541ea  #7541ea */
+        val start = 0xF2C511
+        val color2 = 0xF39C19
+        val color3 = 0xFF0000
+        val color4 = 0xb300ff
         val prefixname = "DailyRewards"
         val root = Text.empty().append(Text.literal("[").formatted(Formatting.GOLD))
-        root.append(gradientText(prefixname, start, color2, color3, color4/* , end */))
+        root.append(gradientText(prefixname, start, color2, color3, color4))
         root.append(Text.literal("] ").formatted(Formatting.GOLD))
         return root
     }

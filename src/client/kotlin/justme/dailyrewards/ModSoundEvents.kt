@@ -1,13 +1,10 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
 import net.minecraft.sound.SoundEvent
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry
 import net.minecraft.util.Identifier
 
-/**
- * Custom Sounds
- **/
 object ModSoundEvents {
     val HOVER: SoundEvent = register("hover")
     val PICK: SoundEvent = register("pick")

@@ -1,4 +1,4 @@
-package cqseur.dailyrewards
+package justme.dailyrewards
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -204,7 +204,7 @@ object RewardFetcher {
                     val offer = RewardOffer(id, cards)
                     MinecraftClient.getInstance().execute {
                         onOffer(offer)
-                        net.minecraft.client.MinecraftClient.getInstance().setScreen(cqseur.dailyrewards.ui.RewardScreen(offer))
+                        net.minecraft.client.MinecraftClient.getInstance().setScreen(justme.dailyrewards.ui.RewardScreen(offer))
                     }
                 }
             } catch (e: Exception) {

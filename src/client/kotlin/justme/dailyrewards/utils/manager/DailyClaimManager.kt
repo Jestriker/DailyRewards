@@ -1,18 +1,11 @@
-package cqseur.dailyrewards.utils.manager
+package justme.dailyrewards.utils.manager
 
-import cqseur.dailyrewards.config.ConfigManager
+import justme.dailyrewards.config.ConfigManager
 
 import org.slf4j.LoggerFactory
 import java.time.*
 import java.time.format.DateTimeFormatter
 
-// Wallahi this is the worst code ever (wait until u see RewardScreen)
-
-/**
- * Manages daily claim logic with automatic timezone conversion
- * - Uses Hypixel's timezone for reset logic (midnight EST)
- * - Automatically converts times to user's local timezone for display
- **/
 object DailyClaimManager {
     private val logger = LoggerFactory.getLogger("[DailyRewards-ClaimManager]")
     
@@ -20,10 +13,6 @@ object DailyClaimManager {
     private val LOCAL_ZONE = ZoneId.systemDefault()
     private val DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     
-    /**
-     * Check if the player can claim rewards today
-     * @return true if claim is available, false if already claimed today
-     **/
     fun canClaimToday(): Boolean {
         val config = ConfigManager.config
         val currentClaimDate = getCurrentClaimDate()
@@ -68,9 +57,6 @@ object DailyClaimManager {
         }
     }
     
-    /**
-     * formatted time user friendly
-     **/
     fun getTimeUntilNextReset(): String {
         val now = ZonedDateTime.now(HYPIXEL_TIMEZONE)
         val nextReset = getNextResetTime()
@@ -135,9 +121,6 @@ object DailyClaimManager {
         return lastClaimDate == yesterday
     }
     
-    /**
-     * Convert Hypixel timezone to user's local timezone for display
-     **/
     fun convertHypixelToLocal(hypixelTime: ZonedDateTime): ZonedDateTime {
         return hypixelTime.withZoneSameInstant(LOCAL_ZONE)
     }
@@ -150,9 +133,6 @@ object DailyClaimManager {
         return convertHypixelToLocal(getNextResetTime())
     }
     
-    /**
-     * formatted version user friendly
-     **/
     fun getNextResetFullTimeFormatted(): String {
         val nextResetLocal = getNextResetTimeLocal()
         val formatter = DateTimeFormatter.ofPattern("MMM d, yyyy 'at' HH:mm z")
@@ -171,9 +151,6 @@ object DailyClaimManager {
         }
     }
     
-    /**
-     * debug
-     **/
     fun getDebugInfo(): String {
         val config = ConfigManager.config
         val currentClaimDate = getCurrentClaimDate()

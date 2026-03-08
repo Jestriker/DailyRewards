@@ -1,7 +1,7 @@
 plugins {
 	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
-	id "org.jetbrains.kotlin.jvm" version "2.1.21"
+	id "org.jetbrains.kotlin.jvm" version "2.1.10"
 }
 
 version = project.mod_version
@@ -44,11 +44,11 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
 
 	//ModMenu
-	modCompileOnly("com.terraformersmc:modmenu:9.0.0")
+	modCompileOnly("com.terraformersmc:modmenu:11.0.3")
 
 	//Cloth Config
-	modImplementation("me.shedaniel.cloth:cloth-config-fabric:18.0.145")
-	include("me.shedaniel.cloth:cloth-config-fabric:18.0.145")
+	modImplementation("me.shedaniel.cloth:cloth-config-fabric:15.0.140")
+	include("me.shedaniel.cloth:cloth-config-fabric:15.0.140")
 
 	//OkHttp
 	modImplementation("com.squareup.okhttp3:okhttp:4.12.0")
